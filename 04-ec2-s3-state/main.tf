@@ -1,6 +1,13 @@
-# Provider
-provider "aws" {
-  region = "ap-south-1"
+# Get latest Amazon Linux 2 AMI (if AMI not specified)
+data "aws_ami" "amazon_linux" {
+  count       = var.ami == "" ? 1 : 0
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
 }
 
 # Get default VPC
@@ -29,11 +36,11 @@ data "aws_security_group" "default" {
 
 # EC2 instance
 resource "aws_instance" "example" {
-  ami                    = var.ami
-  instance_type          = var.instance_type
-  subnet_id              = data.aws_subnet.selected.id
-  vpc_security_group_ids = [data.aws_security_group.default.id]
-  key_name               = var.key_name
+  ami                         = var.ami != "" ? var.ami : data.aws_ami.amazon_linux[0].id
+  instance_type               = var.instance_type
+  subnet_id                   = data.aws_subnet.selected.id
+  vpc_security_group_ids      = [data.aws_security_group.default.id]
+  key_name                    = var.key_name
   associate_public_ip_address = true
 
   tags = {

@@ -1,6 +1,13 @@
-variable "ami" {
-  description = "The AMI ID to use for the EC2 instance"
+variable "aws_region" {
+  description = "AWS region"
   type        = string
+  default     = "ap-south-1"
+}
+
+variable "ami" {
+  description = "The AMI ID to use for the EC2 instance (leave empty for auto-detection)"
+  type        = string
+  default     = ""
 }
 
 variable "instance_type" {

@@ -1,0 +1,20 @@
+# Commands for EC2 with S3 Remote State
+
+# 1. Ensure backend infrastructure exists (run 03-remote-state-backend first)
+# 2. Initialize with remote backend
+terraform init
+
+# 3. Plan the deployment
+terraform plan
+
+# 4. Apply the configuration
+terraform apply
+
+# 5. Show current state (stored in S3)
+terraform show
+
+# 6. List state resources
+terraform state list
+
+# 7. Destroy resources
+terraform destroy
